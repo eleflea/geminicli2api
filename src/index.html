@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>kawaii anomaly</title>
+    <style>
+      :root {
+        --bg1: #0f0c29;
+        --bg2: #302b63;
+        --accent1: #ff6ec7;
+        --accent2: #7ae7ff;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: "Segoe UI", Roboto, Arial, sans-serif;
+        background: linear-gradient(120deg, var(--bg1), var(--bg2));
+        color: #fff;
+        overflow: hidden;
+      }
+
+      /* drifting noise layers */
+      .sky {
+        position: fixed;
+        inset: -20% -20% -20% -20%;
+        background: radial-gradient(
+            circle at 10% 20%,
+            rgba(255, 110, 199, 0.06),
+            transparent 8%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(122, 231, 255, 0.04),
+            transparent 12%
+          );
+        animation: floaty 18s linear infinite;
+        mix-blend-mode: screen;
+        filter: blur(18px);
+        pointer-events: none;
+      }
+      @keyframes floaty {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-6%) rotate(2deg);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+
+      /* weird card */
+      .card {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-3deg);
+        width: min(86vw, 720px);
+        padding: 36px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.01)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(6px) saturate(120%);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+        border-radius: 20px;
+      }
+
+      .title {
+        font-size: 36px;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        font-weight: 700;
+        margin: 0 0 6px 0;
+        position: relative;
+        color: var(--accent1);
+        mix-blend-mode: screen;
+      }
+
+      .subtitle {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.6);
+        margin: 0 0 22px 0;
+        letter-spacing: 2px;
+      }
+
+      /* glitchy main line */
+      .glitch {
+        position: relative;
+        font-size: 84px;
+        line-height: 0.9;
+        font-weight: 900;
+        margin: 6px 0 18px 0;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.06);
+        background: linear-gradient(90deg, var(--accent1), var(--accent2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        text-transform: lowercase;
+        mix-blend-mode: overlay;
+      }
+      .glitch::before,
+      .glitch::after {
+        content: "kawaiianomaly";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .glitch::before {
+        color: var(--accent2);
+        clip-path: inset(0 0 66% 0);
+        transform: translate(6px, -4px) skewX(-6deg);
+        opacity: 0.88;
+        filter: blur(0.6px);
+        animation: jitterA 3s infinite linear;
+      }
+      .glitch::after {
+        color: var(--accent1);
+        clip-path: inset(66% 0 0 0);
+        transform: translate(-6px, 4px) skewX(6deg);
+        opacity: 0.95;
+        animation: jitterB 2.7s infinite linear;
+      }
+      @keyframes jitterA {
+        0% {
+          transform: translate(6px, -4px) skewX(-6deg);
+        }
+        50% {
+          transform: translate(2px, 2px) skewX(-2deg);
+        }
+        100% {
+          transform: translate(6px, -4px) skewX(-6deg);
+        }
+      }
+      @keyframes jitterB {
+        0% {
+          transform: translate(-6px, 4px) skewX(6deg);
+        }
+        50% {
+          transform: translate(-2px, -2px) skewX(2deg);
+        }
+        100% {
+          transform: translate(-6px, 4px) skewX(6deg);
+        }
+      }
+
+      .panel {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        margin-top: 12px;
+      }
+
+      .note {
+        flex: 1;
+        padding: 14px;
+        border-radius: 12px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.015)
+        );
+        border: 1px dashed rgba(255, 255, 255, 0.03);
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.9);
+        transform: rotate(-1.2deg);
+      }
+
+      .token {
+        min-width: 110px;
+        text-align: center;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 110, 199, 0.12),
+          rgba(122, 231, 255, 0.06)
+        );
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #061120;
+        transform: rotate(2deg);
+      }
+
+      /* tiny floating badges */
+      .badge {
+        position: absolute;
+        font-size: 11px;
+        padding: 6px 8px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(4px);
+        transform-origin: center;
+      }
+      .b1 {
+        right: 8%;
+        top: 22%;
+        transform: rotate(-10deg) scale(1.02);
+      }
+      .b2 {
+        left: 6%;
+        bottom: 18%;
+        transform: rotate(8deg) scale(0.9);
+      }
+      .b3 {
+        left: 50%;
+        bottom: 6%;
+        transform: translateX(-50%) rotate(-4deg) scale(0.95);
+      }
+
+      /* unreadable footer whisper */
+      .whisper {
+        margin-top: 22px;
+        font-size: 11px;
+        opacity: 0.8;
+        color: rgba(255, 255, 255, 0.7);
+        transform: rotate(-0.6deg);
+        letter-spacing: 1px;
+      }
+
+      /* interactive nonsense */
+      .weird-btn {
+        display: inline-block;
+        margin-top: 14px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        cursor: pointer;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: transform 0.18s ease;
+      }
+      .weird-btn:active {
+        transform: translateY(2px) rotate(-1deg) scale(0.99);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sky" aria-hidden="true"></div>
+
+    <div class="card" role="region" aria-label="kawaii anomaly">
+      <h1 class="title">KAWAII ANOMALY</h1>
+      <p class="subtitle">virtual whisper · ambient oddities</p>
+
+      <div class="glitch" aria-hidden="true">kawaiianomaly</div>
+
+      <div class="panel">
+        <div class="note">
+          echo: "i keep losing vowels. listen close — the syllables are hiding."
+          <br /><small style="opacity: 0.7"
+            >(do not try to pronounce literally)</small
+          >
+        </div>
+        <div class="token">· /0xD34R ·</div>
+      </div>
+
+      <div class="whisper">
+        system log: received 7 soft confessions. nobody knows why.
+        <br /><button class="weird-btn" onclick="nonsense()">
+          press (do not expect)
+        </button>
+      </div>
+    </div>
+
+    <div class="badge b1">o_o</div>
+    <div class="badge b2">/me</div>
+    <div class="badge b3">&lt;3</div>
+
+    <script>
+      // intentionally cryptic, short and harmless
+      function nonsense() {
+        const texts = [
+          "the pixels remember you.",
+          "your shadow typed a question.",
+          "there is a comma behind the moon.",
+          "translations are shy tonight.",
+        ];
+        const t = texts[Math.floor(Math.random() * texts.length)];
+        alert(t);
+      }
+
+      // tiny drifting motion to increase confusion
+      (function drift() {
+        const card = document.querySelector(".card");
+        let a = 0;
+        setInterval(() => {
+          a += 0.012;
+          card.style.transform = `translate(-50%,-50%) rotate(${
+            Math.sin(a) * 3 - 3
+          }deg)`;
+        }, 40);
+      })();
+    </script>
+  </body>
+</html>

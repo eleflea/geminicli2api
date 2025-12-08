@@ -77,7 +77,7 @@ def authenticate_user(request: Request):
     # If none of the authentication methods work
     raise HTTPException(
         status_code=401,
-        detail="Invalid authentication credentials. Use HTTP Basic Auth, Bearer token, 'key' query parameter, or 'x-goog-api-key' header.",
+        detail="I.A.C.",
         headers={"WWW-Authenticate": "Basic"},
     )
 

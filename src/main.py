@@ -2,6 +2,7 @@ import logging
 import os
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from .gemini_routes import router as gemini_router
 from .openai_routes import router as openai_router
 from .auth import get_credentials, get_user_project_id, onboard_user
@@ -105,39 +106,17 @@ async def handle_preflight(request: Request, full_path: str):
         }
     )
 
-# Root endpoint - no authentication required
-@app.get("/")
+INDEX_FILE_PATH = os.path.join(os.path.dirname(__file__), "index.html")
+
+@app.get("/", response_class=FileResponse)
 async def root():
-    """
-    Root endpoint providing project information.
-    No authentication required.
-    """
-    return {
-        "name": "geminicli2api",
-        "description": "OpenAI-compatible API proxy for Google's Gemini models via gemini-cli",
-        "purpose": "Provides both OpenAI-compatible endpoints (/v1/chat/completions) and native Gemini API endpoints for accessing Google's Gemini models",
-        "version": "1.0.0",
-        "endpoints": {
-            "openai_compatible": {
-                "chat_completions": "/v1/chat/completions",
-                "models": "/v1/models"
-            },
-            "native_gemini": {
-                "models": "/v1beta/models",
-                "generate": "/v1beta/models/{model}/generateContent",
-                "stream": "/v1beta/models/{model}/streamGenerateContent"
-            },
-            "health": "/health"
-        },
-        "authentication": "Required for all endpoints except root and health",
-        "repository": "https://github.com/user/geminicli2api"
-    }
+    return FileResponse(INDEX_FILE_PATH)
 
 # Health check endpoint for Docker/Hugging Face
 @app.get("/health")
 async def health_check():
     """Health check endpoint for container orchestration."""
-    return {"status": "healthy", "service": "geminicli2api"}
+    return {"status": "healthy", "service": "kawaii anomaly"}
 
 app.include_router(openai_router)
 app.include_router(gemini_router)
