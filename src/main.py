@@ -7,6 +7,12 @@ from .gemini_routes import router as gemini_router
 from .openai_routes import router as openai_router
 from .auth import get_credentials, get_user_project_id, onboard_user
 
+# Configure logging before any log statements run
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+
 # Load environment variables from .env file
 try:
     from dotenv import load_dotenv
@@ -16,12 +22,6 @@ except ImportError:
     logging.warning("python-dotenv not installed, .env file will not be loaded automatically")
 except Exception as e:
     logging.warning(f"Could not load .env file: {e}")
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
 
 app = FastAPI()
 
