@@ -9,7 +9,6 @@ services:
       - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-}
       - HOST=${HOST:-0.0.0.0}
       - PORT=${PORT:-8888}
-    volumes:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "sh", "-c", "curl -f http://localhost:${PORT:-8888}/health"]
