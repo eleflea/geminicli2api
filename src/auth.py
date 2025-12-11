@@ -510,7 +510,7 @@ def onboard_user(creds, project_id):
             time.sleep(5)
 
     except requests.exceptions.HTTPError as e:
-        raise Exception(f"User onboarding failed. Please check your Google Cloud project permissions and try again. Error: {e.response.text if hasattr(e, 'response') else str(e)}")
+        raise Exception(f"User onboarding failed. Please check your Google Cloud project [{project_id}] permissions and try again. Error: {e.response.text if hasattr(e, 'response') else str(e)}")
     except Exception as e:
         raise Exception(f"User onboarding failed due to an unexpected error: {str(e)}")
 
